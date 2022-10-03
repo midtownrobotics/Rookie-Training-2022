@@ -14,8 +14,10 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.OuttakeCommand;
+import frc.robot.commands.RunWinch;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Outtake;
+import frc.robot.subsystems.Climber;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
@@ -55,9 +57,14 @@ public class RobotContainer {
 
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final Outtake outtake = new Outtake(CAN41); 
+  
+  
+  private final Climber climber = new Climber(CAN52, CAN53, CAN50, CAN51, DIO0);
+
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
-  private final  OuttakeCommand outtakeCommand = new OuttakeCommand(outtake);
+  private final OuttakeCommand outtakeCommand = new OuttakeCommand(outtake);
+  private final RunWinch runWinch = new RunWinch(climber);
   private final XboxController driver = new XboxController(0);
   private final XboxController operator = new XboxController(1);
 
@@ -111,7 +118,7 @@ public class RobotContainer {
     
     // Operator buttons
     JoystickButton oA = new JoystickButton(operator, XboxController.Button.kA.value);
-    // JoystickButton oB = new JoystickButton(operator, XboxController.Button.kB.value);
+    JoystickButton oB = new JoystickButton(operator, XboxController.Button.kB.value);
     // JoystickButton oX = new JoystickButton(operator, XboxController.Button.kX.value);
     // JoystickButton oY = new JoystickButton(operator, XboxController.Button.kY.value);
     // JoystickButton oLB = new JoystickButton(operator, XboxController.Button.kLeftBumper.value);
@@ -136,6 +143,8 @@ public class RobotContainer {
     // POVTrigger oDPadLeft = new POVTrigger(operator, 270);
 
     oA.whenHeld(outtakeCommand);
+    oB.whenHeld(runWinch);
+
   }
 
   /**
