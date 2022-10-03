@@ -8,23 +8,27 @@ public class Conveyor extends SubsystemBase {
     WPI_TalonSRX conveyorMotor;
     DigitalInput limitSwitchConveyor1;
     DigitalInput limitSwitchConveyor2;
-    public Conveyor(WPI_TalonSRX conveyorMotor,DigitalInput limitSwitchConveyor1,DigitalInput limitSwitchConveyor2) {
-        this.conveyorMotor=conveyorMotor;
 
+    public Conveyor(WPI_TalonSRX conveyorMotor, DigitalInput limitSwitchConveyor1, DigitalInput limitSwitchConveyor2) {
+        this.limitSwitchConveyor1 = limitSwitchConveyor1;
+        this.limitSwitchConveyor2 = limitSwitchConveyor2;
+        this.conveyorMotor = conveyorMotor;
+        this.conveyorMotor.setInverted(true);
     }
-    public void motorOn(){
+
+    public void motorOn() {
         conveyorMotor.set(1);
     }
 
-    public void motorOff(){
+    public void motorOff() {
         conveyorMotor.set(0);
     }
 
-    public void motorReverse(){
+    public void motorReverse() {
         conveyorMotor.set(-1);
     }
 
-    public boolean isBallIn(){
+    public boolean isBallIn() {
         return !limitSwitchConveyor1.get() || !limitSwitchConveyor2.get();
     }
- }
+}
