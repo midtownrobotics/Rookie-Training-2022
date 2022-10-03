@@ -1,3 +1,5 @@
+package frc.robot.subsystems;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -10,19 +12,19 @@ public class Conveyor extends SubsystemBase {
         this.conveyorMotor=conveyorMotor;
 
     }
-    void motorOn(){
+    public void motorOn(){
         conveyorMotor.set(1);
     }
 
-    void motorOff(){
+    public void motorOff(){
         conveyorMotor.set(0);
     }
 
-    void motorReverse(){
+    public void motorReverse(){
         conveyorMotor.set(-1);
     }
 
-    boolean isBallIn(){
+    public boolean isBallIn(){
         return !limitSwitchConveyor1.get() || !limitSwitchConveyor2.get();
     }
  }

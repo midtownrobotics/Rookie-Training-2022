@@ -1,4 +1,8 @@
+package frc.robot.commands;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Conveyor;
+
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 public class ConveyorForward extends CommandBase {
@@ -19,6 +23,6 @@ public class ConveyorForward extends CommandBase {
     //limit Switches pressed?
     @Override
     public boolean isFinished(){
-        return isBallIn();
+        return conveyor.isBallIn();
     }
 }
