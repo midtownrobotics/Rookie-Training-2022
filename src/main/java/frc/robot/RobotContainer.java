@@ -52,8 +52,11 @@ public class RobotContainer {
   private final DigitalInput DIO4 = new DigitalInput(4);
 
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  private final Conveyor conveyor = new Conveyor(CAN40,DIO5,DIO1);
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+  private final ConveyorForward conveyorForward = new ConveyorForward(conveyor);
+  private final ConveyorBackward conveyorBackward = new ConveyorBackward(conveyor);
 
   private final XboxController driver = new XboxController(0);
   private final XboxController operator = new XboxController(1);
@@ -111,8 +114,8 @@ public class RobotContainer {
     // JoystickButton oB = new JoystickButton(operator, XboxController.Button.kB.value);
     // JoystickButton oX = new JoystickButton(operator, XboxController.Button.kX.value);
     // JoystickButton oY = new JoystickButton(operator, XboxController.Button.kY.value);
-    // JoystickButton oLB = new JoystickButton(operator, XboxController.Button.kLeftBumper.value);
-    // JoystickButton oRB = new JoystickButton(operator, XboxController.Button.kRightBumper.value);
+    JoystickButton oLB = new JoystickButton(operator, XboxController.Button.kLeftBumper.value);
+    JoystickButton oRB = new JoystickButton(operator, XboxController.Button.kRightBumper.value);
     // XboxControllerButton oLT =
     // new XboxControllerButton(operator, XboxController.Axis.kLeftTrigger.value);
     // XboxControllerButton oRT =
@@ -131,7 +134,8 @@ public class RobotContainer {
     // POVTrigger oDPadRight = new POVTrigger(operator, 90);
     // POVTrigger oDPadDown = new POVTrigger(operator, 180);
     // POVTrigger oDPadLeft = new POVTrigger(operator, 270);
-
+    oLB.whenHeld(conveyorForward);
+    oRB.whenHeld(conveyorBackward);
   }
 
   /**

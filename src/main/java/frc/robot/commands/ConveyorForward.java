@@ -15,4 +15,10 @@ public class ConveyorForward extends CommandBase {
     public void end(boolean interrupted){
         conveyor.motorOff();
     }
+
+    //limit Switches pressed?
+    @Override
+    public boolean isFinished(){
+        return isBallIn();
+    }
 }
