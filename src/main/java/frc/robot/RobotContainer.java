@@ -12,8 +12,11 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.commands.ConveyorBackward;
+import frc.robot.commands.ConveyorForward;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.OuttakeCommand;
+import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Outtake;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -55,8 +58,11 @@ public class RobotContainer {
 
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final Outtake outtake = new Outtake(CAN41); 
+  private final Conveyor conveyor = new Conveyor(CAN40,DIO5,DIO1);
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+  private final ConveyorForward conveyorForward = new ConveyorForward(conveyor);
+  private final ConveyorBackward conveyorBackward = new ConveyorBackward(conveyor);
   private final  OuttakeCommand outtakeCommand = new OuttakeCommand(outtake);
   private final XboxController driver = new XboxController(0);
   private final XboxController operator = new XboxController(1);
@@ -114,8 +120,8 @@ public class RobotContainer {
     // JoystickButton oB = new JoystickButton(operator, XboxController.Button.kB.value);
     // JoystickButton oX = new JoystickButton(operator, XboxController.Button.kX.value);
     // JoystickButton oY = new JoystickButton(operator, XboxController.Button.kY.value);
-    // JoystickButton oLB = new JoystickButton(operator, XboxController.Button.kLeftBumper.value);
-    // JoystickButton oRB = new JoystickButton(operator, XboxController.Button.kRightBumper.value);
+    JoystickButton oLB = new JoystickButton(operator, XboxController.Button.kLeftBumper.value);
+    JoystickButton oRB = new JoystickButton(operator, XboxController.Button.kRightBumper.value);
     // XboxControllerButton oLT =
     // new XboxControllerButton(operator, XboxController.Axis.kLeftTrigger.value);
     // XboxControllerButton oRT =
@@ -134,7 +140,8 @@ public class RobotContainer {
     // POVTrigger oDPadRight = new POVTrigger(operator, 90);
     // POVTrigger oDPadDown = new POVTrigger(operator, 180);
     // POVTrigger oDPadLeft = new POVTrigger(operator, 270);
-
+    oLB.whenHeld(conveyorForward);
+    oRB.whenHeld(conveyorBackward);
     oA.whenHeld(outtakeCommand);
   }
 
@@ -148,3 +155,4 @@ public class RobotContainer {
     return m_autoCommand;
   }
 }
+// Test Test
