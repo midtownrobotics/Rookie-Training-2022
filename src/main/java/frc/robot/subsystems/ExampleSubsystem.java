@@ -8,7 +8,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class conveyor extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
-  public conveyor() {}
+  public conveyor() {
+  }
 
   @Override
   public void periodic() {
