@@ -32,8 +32,6 @@ public class Climber extends SubsystemBase{
     public runPivot(double power){
         this.pivotMaster.set(power);
     }
-
+    
     
 }
-
-
