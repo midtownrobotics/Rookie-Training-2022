@@ -25,7 +25,7 @@ public class RunWinch extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-      climber.runWinch(1);
+      climber.runWinch(0.25);
   }
 
  
@@ -35,5 +35,5 @@ public class RunWinch extends CommandBase {
   public void end(boolean interrupted) {
       climber.runWinch(0);
   }
-  
+ //ok so we need some sort of thing that takes values from -1 to 1 that we can operate using the joystick 
 }
