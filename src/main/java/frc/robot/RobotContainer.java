@@ -14,7 +14,12 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.Intake;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.commands.SpinIntakeWheels;
+import frc.robot.commands.DeployIntake;
+import frc.robot.commands.RetractIntake;
+import frc.robot.commands.ReverseIntakeWheels;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
@@ -52,8 +57,10 @@ public class RobotContainer {
   private final DigitalInput DIO4 = new DigitalInput(4);
 
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  private final Intake intake = new Intake(CAN30,CAN31,CAN32,DIO3,DIO4);
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+
 
   private final XboxController driver = new XboxController(0);
   private final XboxController operator = new XboxController(1);
@@ -80,12 +87,12 @@ public class RobotContainer {
     // XboxController.Button.kX.value);
     // JoystickButton dY = new JoystickButton(driver,
     // XboxController.Button.kY.value);
-    // JoystickButton dLB = new JoystickButton(driver,
-    // XboxController.Button.kLeftBumper.value);
+    //JoystickButton dLB = new JoystickButton(driver,
+    //XboxController.Button.kLeftBumper.value);
     // JoystickButton dRB = new JoystickButton(driver,
     // XboxController.Button.kRightBumper.value);
-    // XboxControllerButton dLT =
-    // new XboxControllerButton(driver, XboxController.Axis.kLeftTrigger.value);
+    //XboxControllerButton dLT = 
+    //new XboxControllerButton(driver, XboxController.Axis.kLeftTrigger.value);
     // XboxControllerButton dRT =
     // new XboxControllerButton(driver, XboxController.Axis.kRightTrigger.value);
     // JoystickButton dBack = new JoystickButton(driver,
@@ -111,10 +118,10 @@ public class RobotContainer {
     // JoystickButton oB = new JoystickButton(operator, XboxController.Button.kB.value);
     // JoystickButton oX = new JoystickButton(operator, XboxController.Button.kX.value);
     // JoystickButton oY = new JoystickButton(operator, XboxController.Button.kY.value);
-    // JoystickButton oLB = new JoystickButton(operator, XboxController.Button.kLeftBumper.value);
+    JoystickButton oLB = new JoystickButton(operator, XboxController.Button.kLeftBumper.value);
     // JoystickButton oRB = new JoystickButton(operator, XboxController.Button.kRightBumper.value);
-    // XboxControllerButton oLT =
-    // new XboxControllerButton(operator, XboxController.Axis.kLeftTrigger.value);
+    XboxControllerButton oLT =
+    new XboxControllerButton(operator, XboxController.Axis.kLeftTrigger.value);
     // XboxControllerButton oRT =
     // new XboxControllerButton(operator, XboxController.Axis.kRightTrigger.value);
     // JoystickButton oBack = new JoystickButton(operator, XboxController.Button.kBack.value);
@@ -127,11 +134,14 @@ public class RobotContainer {
     // new XboxControllerButton(operator, XboxController.Axis.kRightY.value);
     // XboxControllerButton oRightX =
     // new XboxControllerButton(operator, XboxController.Axis.kRightX.value);
-    // POVTrigger oDPadUp = new POVTrigger(operator, 0);
+    POVTrigger oDPadUp = new POVTrigger(operator, 0);
     // POVTrigger oDPadRight = new POVTrigger(operator, 90);
-    // POVTrigger oDPadDown = new POVTrigger(operator, 180);
+    POVTrigger oDPadDown = new POVTrigger(operator, 180);
     // POVTrigger oDPadLeft = new POVTrigger(operator, 270);
-
+    oLB.whenHeld(new SpinIntakeWheels(intake));
+    oLT.whenHeld(new ReverseIntakeWheels(intake));
+    oDPadUp.whenActive(new DeployIntake(intake));
+    oDPadDown.whenActive(new RetractIntake(intake));
   }
 
   /**
