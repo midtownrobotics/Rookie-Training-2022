@@ -142,8 +142,8 @@ public class RobotContainer {
     // POVTrigger oDPadLeft = new POVTrigger(operator, 270);
 
     oA.whenHeld(new OuttakeCommand(outtake));
-    oLeftY.whileActiveContinuous(new RunWinch(climber, oLeftY.getRawAxis()*0.25));
-    oRightY.whileActiveContinuous(new RunPivot(climber, oRightY.getRawAxis()*0.25));
+    oLeftY.whileActiveContinuous(new RunWinch(climber, oLeftY.getRawAxis()));
+    oRightY.whileActiveContinuous(new RunPivot(climber, oRightY.getRawAxis()));
   }
 
   /**
