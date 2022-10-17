@@ -19,7 +19,7 @@ public class Climber extends SubsystemBase {
         DigitalInput hookSwitch) {
         this.winchMaster = winchMaster;
         this.winchFollower = winchFollower;
-        this.pivotMaster = winchMaster;
+        this.pivotMaster = pivotMaster;
         this.pivotFollower = pivotFollower;
         this.hookSwitch = hookSwitch;
         
