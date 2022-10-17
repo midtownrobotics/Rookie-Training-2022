@@ -5,10 +5,6 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX; 
 
 public class intake extends SubsystemBase{
-<<<<<<< HEAD
-    
-
-=======
     private WPI_TalonSRX deployMotorMaster;
     private WPI_TalonSRX deployMotorFollower;
     private WPI_TalonSRX runnerMotor;
@@ -25,5 +21,4 @@ public class intake extends SubsystemBase{
         deployMotorFollower.follow(deployMotorMaster);
         deployMotorFollower.setInverted(true);
     }
->>>>>>> 821cb24cb88685ddb2bbc06d785247d3fc133c6c
 }
