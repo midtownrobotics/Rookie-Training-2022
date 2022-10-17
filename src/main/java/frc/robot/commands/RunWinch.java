@@ -16,7 +16,7 @@ public class RunWinch extends CommandBase {
    *
    * @param climber The subsystem used by this command.
    */
-  public RunWinch(Climber climber) {
+  public RunWinch(Climber climber, double power) {
     this.climber = climber;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(climber);

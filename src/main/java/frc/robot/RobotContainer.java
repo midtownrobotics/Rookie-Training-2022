@@ -63,8 +63,6 @@ public class RobotContainer {
 
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
-  private final OuttakeCommand outtakeCommand = new OuttakeCommand(outtake);
-  private final RunWinch runWinch = new RunWinch(climber);
   private final XboxController driver = new XboxController(0);
   private final XboxController operator = new XboxController(1);
 
@@ -118,7 +116,7 @@ public class RobotContainer {
     
     // Operator buttons
     JoystickButton oA = new JoystickButton(operator, XboxController.Button.kA.value);
-    JoystickButton oB = new JoystickButton(operator, XboxController.Button.kB.value);
+    //JoystickButton oB = new JoystickButton(operator, XboxController.Button.kB.value);
     // JoystickButton oX = new JoystickButton(operator, XboxController.Button.kX.value);
     // JoystickButton oY = new JoystickButton(operator, XboxController.Button.kY.value);
     // JoystickButton oLB = new JoystickButton(operator, XboxController.Button.kLeftBumper.value);
@@ -129,8 +127,8 @@ public class RobotContainer {
     // new XboxControllerButton(operator, XboxController.Axis.kRightTrigger.value);
     // JoystickButton oBack = new JoystickButton(operator, XboxController.Button.kBack.value);
     // JoystickButton oStart = new JoystickButton(operator, XboxController.Button.kStart.value);
-    // XboxControllerButton oLeftY =
-    // new XboxControllerButton(operator, XboxController.Axis.kLeftY.value);
+     XboxControllerButton oLeftY =
+     new XboxControllerButton(operator, XboxController.Axis.kLeftY.value);
     // XboxControllerButton oLeftX =
     // new XboxControllerButton(operator, XboxController.Axis.kLeftX.value);
     // XboxControllerButton oRightY =
@@ -142,8 +140,8 @@ public class RobotContainer {
     // POVTrigger oDPadDown = new POVTrigger(operator, 180);
     // POVTrigger oDPadLeft = new POVTrigger(operator, 270);
 
-    oA.whenHeld(outtakeCommand);
-    oB.whenHeld(runWinch);
+    oA.whenHeld(new OuttakeCommand(outtake));
+    oLeftY.whileActiveContinuous(new RunWinch(climber, oLeftY.getRawAxis()*0.25));
 
   }
 
