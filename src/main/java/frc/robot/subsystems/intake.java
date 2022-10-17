@@ -21,4 +21,28 @@ public class intake extends SubsystemBase{
         deployMotorFollower.follow(deployMotorMaster);
         deployMotorFollower.setInverted(true);
     }
+
+    public void motorRunOn(){
+        runnerMotor.set(1);
+    }
+
+    public void motorRunOff(){
+        runnerMotor.set(0);
+    }
+
+    public void motorRunReverse(){
+        runnerMotor.set(-1);
+    }
+
+    public void deployIntake(){
+        deployMotorMaster.set(1);
+    }
+
+    public void retractIntake(){
+        deployMotorMaster.set(-1);
+    }
+
+    public boolean isExtended(){
+        return !limitSwitchIntake1.get() && !limitSwitchIntake2.get();
+    }
 }
