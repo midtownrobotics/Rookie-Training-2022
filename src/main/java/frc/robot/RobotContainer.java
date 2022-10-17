@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.OuttakeCommand;
+import frc.robot.commands.RunPivot;
 import frc.robot.commands.RunWinch;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Outtake;
@@ -131,8 +132,8 @@ public class RobotContainer {
      new XboxControllerButton(operator, XboxController.Axis.kLeftY.value);
     // XboxControllerButton oLeftX =
     // new XboxControllerButton(operator, XboxController.Axis.kLeftX.value);
-    // XboxControllerButton oRightY =
-    // new XboxControllerButton(operator, XboxController.Axis.kRightY.value);
+    XboxControllerButton oRightY =
+    new XboxControllerButton(operator, XboxController.Axis.kRightY.value);
     // XboxControllerButton oRightX =
     // new XboxControllerButton(operator, XboxController.Axis.kRightX.value);
     // POVTrigger oDPadUp = new POVTrigger(operator, 0);
@@ -142,7 +143,7 @@ public class RobotContainer {
 
     oA.whenHeld(new OuttakeCommand(outtake));
     oLeftY.whileActiveContinuous(new RunWinch(climber, oLeftY.getRawAxis()*0.25));
-
+    oRightY.whileActiveContinuous(new RunPivot(climber, oRightY.getRawAxis()*0.25));
   }
 
   /**

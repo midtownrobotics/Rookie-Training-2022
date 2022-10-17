@@ -8,15 +8,16 @@ import frc.robot.subsystems.Climber;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
-public class RunWinch extends CommandBase {
+public class RunPivot extends CommandBase {
   private final Climber climber;
   private double power;
+
   /**
    * Creates a new ExampleCommand.
    *
    * @param climber The subsystem used by this command.
    */
-  public RunWinch(Climber climber, double power) {
+  public RunPivot(Climber climber, double power) {
     this.power = power;
     this.climber = climber;
     // Use addRequirements() here to declare subsystem dependencies.
@@ -26,7 +27,7 @@ public class RunWinch extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-      climber.runWinch(power);
+      climber.runPivot(power);
   }
 
  
@@ -34,7 +35,7 @@ public class RunWinch extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-      climber.runWinch(0);
+      climber.runPivot(0);
   }
  //ok so we need some sort of thing that takes values from -1 to 1 that we can operate using the joystick 
 }
