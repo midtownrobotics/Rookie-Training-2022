@@ -61,8 +61,7 @@ public class Drivetrain extends SubsystemBase {
       WPI_VictorSPX lFollower2,
       WPI_TalonSRX rMaster,
       WPI_VictorSPX rFollower1,
-      WPI_VictorSPX rFollower2,
-      WPI_PigeonIMU gyro) {
+      WPI_VictorSPX rFollower2) {
     super();
     leftMaster = lMaster;
     rightMaster = rMaster;
@@ -70,7 +69,7 @@ public class Drivetrain extends SubsystemBase {
     leftFollower2 = lFollower2;
     rightFollower1 = rFollower1;
     rightFollower2 = rFollower2;
-    pigeon = gyro;
+;
 
     leftMaster.setInverted(false);
     leftFollower1.setInverted(false);

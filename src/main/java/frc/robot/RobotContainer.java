@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -57,6 +58,8 @@ public class RobotContainer {
 
   private final XboxController driver = new XboxController(0);
   private final XboxController operator = new XboxController(1);
+  private final Drivetrain driveTrain =
+      new Drivetrain(CAN20, CAN21, CAN22, CAN10, CAN11, CAN12);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -92,14 +95,14 @@ public class RobotContainer {
     // XboxController.Button.kBack.value);
     // JoystickButton dStart = new JoystickButton(driver,
     // XboxController.Button.kStart.value);
-    // XboxControllerButton dLeftY =
-    // new XboxControllerButton(driver, XboxController.Axis.kLeftY.value);
-    // XboxControllerButton dLeftX =
-    // new XboxControllerButton(driver, XboxController.Axis.kLeftX.value);
-    // XboxControllerButton dRightY =
-    // new XboxControllerButton(driver, XboxController.Axis.kRightY.value);
-    // XboxControllerButton dRightX =
-    // new XboxControllerButton(driver, XboxController.Axis.kRightX.value);
+     XboxControllerButton dLeftY =
+     new XboxControllerButton(driver, XboxController.Axis.kLeftY.value);
+     XboxControllerButton dLeftX =
+     new XboxControllerButton(driver, XboxController.Axis.kLeftX.value);
+     XboxControllerButton dRightY =
+     new XboxControllerButton(driver, XboxController.Axis.kRightY.value);
+     XboxControllerButton dRightX =
+     new XboxControllerButton(driver, XboxController.Axis.kRightX.value);
 
     // POVTrigger dDPadUp = new POVTrigger(driver, 0);
     // POVTrigger dDPadRight = new POVTrigger(driver, 90);
@@ -131,8 +134,22 @@ public class RobotContainer {
     // POVTrigger oDPadRight = new POVTrigger(operator, 90);
     // POVTrigger oDPadDown = new POVTrigger(operator, 180);
     // POVTrigger oDPadLeft = new POVTrigger(operator, 270);
+    dLeftX
+    .or(dLeftY)
+    .or(dRightX)
+    .or(dRightY)
+    .whileActiveContinuous(
+        () ->
+            driveTrain.driveWithInputs(
+                dLeftX.getRawAxis(),
+                -dLeftY.getRawAxis(),
+                dRightX.getRawAxis(),
+                -dRightY.getRawAxis()),
+        driveTrain)
+  .whenInactive(driveTrain::stop, driveTrain);
 
   }
+
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
