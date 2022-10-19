@@ -12,16 +12,22 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.commands.OuttakeCommand;
-import frc.robot.commands.RunPivot;
-import frc.robot.commands.RunWinch;
-import frc.robot.subsystems.ExampleSubsystem;
-import frc.robot.subsystems.Outtake;
-import frc.robot.subsystems.Climber;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.ConveyorBackward;
+import frc.robot.commands.ConveyorForward;
+import frc.robot.commands.DeployIntake;
+import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.OuttakeCommand;
+import frc.robot.commands.RetractIntake;
+import frc.robot.commands.ReverseIntakeWheels;
+import frc.robot.commands.SpinIntakeWheels;
+import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.Conveyor;
+import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Outtake;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -58,13 +64,19 @@ public class RobotContainer {
   private final DigitalInput DIO4 = new DigitalInput(4);
 
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  private final Intake intake = new Intake(CAN31,CAN32,CAN30,DIO3,DIO4);
+
   private final Outtake outtake = new Outtake(CAN41); 
   
   
   private final Climber climber = new Climber(CAN52, CAN53, CAN50, CAN51, DIO0);
 
+  private final Conveyor conveyor = new Conveyor(CAN40,DIO5,DIO1);
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+  private final ConveyorForward conveyorForward = new ConveyorForward(conveyor);
+  private final ConveyorBackward conveyorBackward = new ConveyorBackward(conveyor);
+  private final  OuttakeCommand outtakeCommand = new OuttakeCommand(outtake);
   private final XboxController driver = new XboxController(0);
   private final XboxController operator = new XboxController(1);
 
@@ -90,12 +102,12 @@ public class RobotContainer {
     // XboxController.Button.kX.value);
     // JoystickButton dY = new JoystickButton(driver,
     // XboxController.Button.kY.value);
-    // JoystickButton dLB = new JoystickButton(driver,
-    // XboxController.Button.kLeftBumper.value);
+    //JoystickButton dLB = new JoystickButton(driver,
+    //XboxController.Button.kLeftBumper.value);
     // JoystickButton dRB = new JoystickButton(driver,
     // XboxController.Button.kRightBumper.value);
-    // XboxControllerButton dLT =
-    // new XboxControllerButton(driver, XboxController.Axis.kLeftTrigger.value);
+    //XboxControllerButton dLT = 
+    //new XboxControllerButton(driver, XboxController.Axis.kLeftTrigger.value);
     // XboxControllerButton dRT =
     // new XboxControllerButton(driver, XboxController.Axis.kRightTrigger.value);
     // JoystickButton dBack = new JoystickButton(driver,
@@ -121,10 +133,16 @@ public class RobotContainer {
     //JoystickButton oB = new JoystickButton(operator, XboxController.Button.kB.value);
     // JoystickButton oX = new JoystickButton(operator, XboxController.Button.kX.value);
     // JoystickButton oY = new JoystickButton(operator, XboxController.Button.kY.value);
-    // JoystickButton oLB = new JoystickButton(operator, XboxController.Button.kLeftBumper.value);
-    // JoystickButton oRB = new JoystickButton(operator, XboxController.Button.kRightBumper.value);
-    // XboxControllerButton oLT =
-    // new XboxControllerButton(operator, XboxController.Axis.kLeftTrigger.value);
+    //JoystickButton oLB = new JoystickButton(operator, XboxController.Button.kLeftBumper.value);
+    JoystickButton oRB = new JoystickButton(operator, XboxController.Button.kRightBumper.value);
+    //XboxControllerButton oLT =
+    //new XboxControllerButton(operator, XboxController.Axis.kLeftTrigger.value);
+    XboxControllerButton oRT =
+    new XboxControllerButton(operator, XboxController.Axis.kRightTrigger.value);
+    JoystickButton oLB = new JoystickButton(operator, XboxController.Button.kLeftBumper.value);
+    //JoystickButton oRB = new JoystickButton(operator, XboxController.Button.kRightBumper.value);
+    XboxControllerButton oLT =
+    new XboxControllerButton(operator, XboxController.Axis.kLeftTrigger.value);
     // XboxControllerButton oRT =
     // new XboxControllerButton(operator, XboxController.Axis.kRightTrigger.value);
     // JoystickButton oBack = new JoystickButton(operator, XboxController.Button.kBack.value);
@@ -137,18 +155,24 @@ public class RobotContainer {
     new XboxControllerButton(operator, XboxController.Axis.kRightY.value);
     // XboxControllerButton oRightX =
     // new XboxControllerButton(operator, XboxController.Axis.kRightX.value);
-    // POVTrigger oDPadUp = new POVTrigger(operator, 0);
+    POVTrigger oDPadUp = new POVTrigger(operator, 0);
     // POVTrigger oDPadRight = new POVTrigger(operator, 90);
-    // POVTrigger oDPadDown = new POVTrigger(operator, 180);
+    POVTrigger oDPadDown = new POVTrigger(operator, 180);
     // POVTrigger oDPadLeft = new POVTrigger(operator, 270);
 
-    oA.whenHeld(new OuttakeCommand(outtake));
     oLeftY.whileActiveContinuous(
       new InstantCommand(() -> climber.runWinch(oLeftY.getRawAxis()), climber)
     ).whenInactive(new InstantCommand(() -> climber.runWinch(0), climber));
     oRightY.whileActiveContinuous(
       new InstantCommand(() -> climber.runPivot(oRightY.getRawAxis()), climber)
     ).whenInactive(new InstantCommand(() -> climber.runPivot(0), climber));
+    oRB.whenHeld(new SpinIntakeWheels(intake));
+    oRT.whenHeld(new ReverseIntakeWheels(intake));
+    oDPadUp.whileActiveOnce(new DeployIntake(intake));
+    oDPadDown.whileActiveOnce(new RetractIntake(intake));
+    oLB.whenHeld(conveyorForward);
+    oLT.whenHeld(conveyorBackward);
+    oA.whenHeld(outtakeCommand);
   }
 
   /**
@@ -161,3 +185,4 @@ public class RobotContainer {
     return m_autoCommand;
   }
 }
+// Test Test
