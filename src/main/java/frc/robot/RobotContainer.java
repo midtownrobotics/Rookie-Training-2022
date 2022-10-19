@@ -20,6 +20,7 @@ import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Outtake;
 import frc.robot.subsystems.Climber;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
@@ -142,8 +143,19 @@ public class RobotContainer {
     // POVTrigger oDPadLeft = new POVTrigger(operator, 270);
 
     oA.whenHeld(new OuttakeCommand(outtake));
-    oLeftY.whileActiveContinuous(new RunWinch(climber, oLeftY.getRawAxis()));
-    oRightY.whileActiveContinuous(new RunPivot(climber, oRightY.getRawAxis()));
+    oRightY.whileActiveContinuous(
+      new InstantCommand(
+          () ->
+              climber.setPivotRelativePosition(
+                  Math.abs(oRightY.getRawAxis()) >= .2 ? oRightY.getRawAxis() * 15 : 0),
+          climber));
+    oLeftY
+    .whileActiveContinuous(
+        new InstantCommand(
+            () ->
+                climber.runWinch(Math.abs(oLeftY.getRawAxis()) >= .2 ? oLeftY.getRawAxis() : 0),
+            climber))
+    .whenInactive(new InstantCommand(() -> climber.runWinch(0), climber));    
   }
 
   /**
