@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -22,7 +23,12 @@ public class Climber extends SubsystemBase {
         this.pivotMaster = pivotMaster;
         this.pivotFollower = pivotFollower;
         this.hookSwitch = hookSwitch;
-        
+    
+        this.winchMaster.setInverted(true);
+        this.pivotMaster.setIdleMode(IdleMode.kBrake);
+        this.winchMaster.setIdleMode(IdleMode.kBrake);       
+        this.pivotFollower.setIdleMode(IdleMode.kBrake);
+        this.winchFollower.setIdleMode(IdleMode.kBrake);
 
         this.winchFollower.follow(winchMaster, true);
         this.pivotFollower.follow(pivotMaster, true);

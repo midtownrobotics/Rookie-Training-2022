@@ -29,10 +29,5 @@ public class RunWinch extends CommandBase {
       climber.runWinch(power);
   }
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-      climber.runWinch(0);
-  }
  //ok so we need some sort of thing that takes values from -1 to 1 that we can operate using the joystick 
 }
