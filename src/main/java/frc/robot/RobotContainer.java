@@ -134,6 +134,7 @@ public class RobotContainer {
     XboxControllerButton oRT =
     new XboxControllerButton(operator, XboxController.Axis.kRightTrigger.value);
     JoystickButton oLB = new JoystickButton(operator, XboxController.Button.kLeftBumper.value);
+    //JoystickButton oRB = new JoystickButton(operator, XboxController.Button.kRightBumper.value);
     XboxControllerButton oLT =
     new XboxControllerButton(operator, XboxController.Axis.kLeftTrigger.value);
     // XboxControllerButton oRT =
@@ -157,7 +158,7 @@ public class RobotContainer {
     oDPadUp.whileActiveOnce(new DeployIntake(intake));
     oDPadDown.whileActiveOnce(new RetractIntake(intake));
     oLB.whenHeld(conveyorForward);
-    oRB.whenHeld(conveyorBackward);
+    oLT.whenHeld(conveyorBackward);
     oA.whenHeld(outtakeCommand);
   }
 
