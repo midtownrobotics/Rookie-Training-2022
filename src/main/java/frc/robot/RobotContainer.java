@@ -57,7 +57,7 @@ public class RobotContainer {
   private final DigitalInput DIO4 = new DigitalInput(4);
 
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  private final Intake intake = new Intake(CAN30,CAN31,CAN32,DIO3,DIO4);
+  private final Intake intake = new Intake(CAN31,CAN32,CAN30,DIO3,DIO4);
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
@@ -118,12 +118,12 @@ public class RobotContainer {
     // JoystickButton oB = new JoystickButton(operator, XboxController.Button.kB.value);
     // JoystickButton oX = new JoystickButton(operator, XboxController.Button.kX.value);
     // JoystickButton oY = new JoystickButton(operator, XboxController.Button.kY.value);
-    JoystickButton oLB = new JoystickButton(operator, XboxController.Button.kLeftBumper.value);
-    // JoystickButton oRB = new JoystickButton(operator, XboxController.Button.kRightBumper.value);
-    XboxControllerButton oLT =
-    new XboxControllerButton(operator, XboxController.Axis.kLeftTrigger.value);
-    // XboxControllerButton oRT =
-    // new XboxControllerButton(operator, XboxController.Axis.kRightTrigger.value);
+    //JoystickButton oLB = new JoystickButton(operator, XboxController.Button.kLeftBumper.value);
+    JoystickButton oRB = new JoystickButton(operator, XboxController.Button.kRightBumper.value);
+    //XboxControllerButton oLT =
+    //new XboxControllerButton(operator, XboxController.Axis.kLeftTrigger.value);
+    XboxControllerButton oRT =
+    new XboxControllerButton(operator, XboxController.Axis.kRightTrigger.value);
     // JoystickButton oBack = new JoystickButton(operator, XboxController.Button.kBack.value);
     // JoystickButton oStart = new JoystickButton(operator, XboxController.Button.kStart.value);
     // XboxControllerButton oLeftY =
@@ -138,10 +138,10 @@ public class RobotContainer {
     // POVTrigger oDPadRight = new POVTrigger(operator, 90);
     POVTrigger oDPadDown = new POVTrigger(operator, 180);
     // POVTrigger oDPadLeft = new POVTrigger(operator, 270);
-    oLB.whenHeld(new SpinIntakeWheels(intake));
-    oLT.whenHeld(new ReverseIntakeWheels(intake));
-    oDPadUp.whenActive(new DeployIntake(intake));
-    oDPadDown.whenActive(new RetractIntake(intake));
+    oRB.whenHeld(new SpinIntakeWheels(intake));
+    oRT.whenHeld(new ReverseIntakeWheels(intake));
+    oDPadUp.whileActiveOnce(new DeployIntake(intake));
+    oDPadDown.whileActiveOnce(new RetractIntake(intake));
   }
 
   /**

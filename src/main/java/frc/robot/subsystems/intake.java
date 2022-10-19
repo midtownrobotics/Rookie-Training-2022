@@ -35,11 +35,11 @@ public class Intake extends SubsystemBase{
     }
 
     public void deployIntake(){
-        deployMotorMaster.set(1);
+        deployMotorMaster.set(-1);
     }
 
     public void retractIntake(){
-        deployMotorMaster.set(-1);
+        deployMotorMaster.set(1);
     }
 
     public void extendIntakeOff(){
