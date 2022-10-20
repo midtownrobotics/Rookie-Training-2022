@@ -19,6 +19,7 @@ import frc.robot.commands.ConveyorBackward;
 import frc.robot.commands.ConveyorForward;
 import frc.robot.commands.DeployIntake;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.subsystems.Drivetrain;
 import frc.robot.commands.OuttakeCommand;
 import frc.robot.commands.RetractIntake;
 import frc.robot.commands.ReverseIntakeWheels;
@@ -79,6 +80,8 @@ public class RobotContainer {
   private final  OuttakeCommand outtakeCommand = new OuttakeCommand(outtake);
   private final XboxController driver = new XboxController(0);
   private final XboxController operator = new XboxController(1);
+  private final Drivetrain driveTrain =
+      new Drivetrain(CAN20, CAN21, CAN22, CAN10, CAN11, CAN12);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -114,14 +117,14 @@ public class RobotContainer {
     // XboxController.Button.kBack.value);
     // JoystickButton dStart = new JoystickButton(driver,
     // XboxController.Button.kStart.value);
-    // XboxControllerButton dLeftY =
-    // new XboxControllerButton(driver, XboxController.Axis.kLeftY.value);
-    // XboxControllerButton dLeftX =
-    // new XboxControllerButton(driver, XboxController.Axis.kLeftX.value);
-    // XboxControllerButton dRightY =
-    // new XboxControllerButton(driver, XboxController.Axis.kRightY.value);
-    // XboxControllerButton dRightX =
-    // new XboxControllerButton(driver, XboxController.Axis.kRightX.value);
+     XboxControllerButton dLeftY =
+     new XboxControllerButton(driver, XboxController.Axis.kLeftY.value);
+     XboxControllerButton dLeftX =
+     new XboxControllerButton(driver, XboxController.Axis.kLeftX.value);
+     XboxControllerButton dRightY =
+     new XboxControllerButton(driver, XboxController.Axis.kRightY.value);
+     XboxControllerButton dRightX =
+     new XboxControllerButton(driver, XboxController.Axis.kRightX.value);
 
     // POVTrigger dDPadUp = new POVTrigger(driver, 0);
     // POVTrigger dDPadRight = new POVTrigger(driver, 90);
@@ -166,6 +169,20 @@ public class RobotContainer {
     oRightY.whileActiveContinuous(
       new InstantCommand(() -> climber.runPivot(oRightY.getRawAxis()), climber)
     ).whenInactive(new InstantCommand(() -> climber.runPivot(0), climber));
+    dLeftX
+    .or(dLeftY)
+    .or(dRightX)
+    .or(dRightY)
+    .whileActiveContinuous(
+        () ->
+            driveTrain.driveWithInputs(
+                dLeftX.getRawAxis(),
+                -dLeftY.getRawAxis(),
+                dRightX.getRawAxis(),
+                -dRightY.getRawAxis()),
+        driveTrain)
+  .whenInactive(driveTrain::stop, driveTrain);
+
     oRB.whenHeld(new SpinIntakeWheels(intake));
     oRT.whenHeld(new ReverseIntakeWheels(intake));
     oDPadUp.whileActiveOnce(new DeployIntake(intake));
@@ -174,6 +191,7 @@ public class RobotContainer {
     oLT.whenHeld(conveyorBackward);
     oA.whenHeld(outtakeCommand);
   }
+
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
