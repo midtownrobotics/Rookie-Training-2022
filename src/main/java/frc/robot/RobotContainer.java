@@ -12,21 +12,23 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ConveyorBackward;
 import frc.robot.commands.ConveyorForward;
+import frc.robot.commands.DeployIntake;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.commands.OuttakeCommand;
+import frc.robot.commands.RetractIntake;
+import frc.robot.commands.ReverseIntakeWheels;
+import frc.robot.commands.SpinIntakeWheels;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Outtake;
-import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.commands.SpinIntakeWheels;
-import frc.robot.commands.DeployIntake;
-import frc.robot.commands.RetractIntake;
-import frc.robot.commands.ReverseIntakeWheels;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -66,6 +68,10 @@ public class RobotContainer {
   private final Intake intake = new Intake(CAN31,CAN32,CAN30,DIO3,DIO4);
 
   private final Outtake outtake = new Outtake(CAN41); 
+  
+  
+  private final Climber climber = new Climber(CAN52, CAN53, CAN50, CAN51, DIO0);
+
   private final Conveyor conveyor = new Conveyor(CAN40,DIO5,DIO1);
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
@@ -127,7 +133,7 @@ public class RobotContainer {
     
     // Operator buttons
     JoystickButton oA = new JoystickButton(operator, XboxController.Button.kA.value);
-    // JoystickButton oB = new JoystickButton(operator, XboxController.Button.kB.value);
+    //JoystickButton oB = new JoystickButton(operator, XboxController.Button.kB.value);
     // JoystickButton oX = new JoystickButton(operator, XboxController.Button.kX.value);
     // JoystickButton oY = new JoystickButton(operator, XboxController.Button.kY.value);
     //JoystickButton oLB = new JoystickButton(operator, XboxController.Button.kLeftBumper.value);
@@ -144,18 +150,25 @@ public class RobotContainer {
     // new XboxControllerButton(operator, XboxController.Axis.kRightTrigger.value);
     // JoystickButton oBack = new JoystickButton(operator, XboxController.Button.kBack.value);
     // JoystickButton oStart = new JoystickButton(operator, XboxController.Button.kStart.value);
-    // XboxControllerButton oLeftY =
-    // new XboxControllerButton(operator, XboxController.Axis.kLeftY.value);
+     XboxControllerButton oLeftY =
+     new XboxControllerButton(operator, XboxController.Axis.kLeftY.value);
     // XboxControllerButton oLeftX =
     // new XboxControllerButton(operator, XboxController.Axis.kLeftX.value);
-    // XboxControllerButton oRightY =
-    // new XboxControllerButton(operator, XboxController.Axis.kRightY.value);
+    XboxControllerButton oRightY =
+    new XboxControllerButton(operator, XboxController.Axis.kRightY.value);
     // XboxControllerButton oRightX =
     // new XboxControllerButton(operator, XboxController.Axis.kRightX.value);
     POVTrigger oDPadUp = new POVTrigger(operator, 0);
     // POVTrigger oDPadRight = new POVTrigger(operator, 90);
     POVTrigger oDPadDown = new POVTrigger(operator, 180);
     // POVTrigger oDPadLeft = new POVTrigger(operator, 270);
+
+    oLeftY.whileActiveContinuous(
+      new InstantCommand(() -> climber.runWinch(oLeftY.getRawAxis()), climber)
+    ).whenInactive(new InstantCommand(() -> climber.runWinch(0), climber));
+    oRightY.whileActiveContinuous(
+      new InstantCommand(() -> climber.runPivot(oRightY.getRawAxis()), climber)
+    ).whenInactive(new InstantCommand(() -> climber.runPivot(0), climber));
     dLeftX
     .or(dLeftY)
     .or(dRightX)
