@@ -16,6 +16,7 @@ import frc.robot.commands.ConveyorBackward;
 import frc.robot.commands.ConveyorForward;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.OuttakeCommand;
+import frc.robot.commands.ConveyorOuttake;
 import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Outtake;
@@ -64,6 +65,7 @@ public class RobotContainer {
   private final ConveyorForward conveyorForward = new ConveyorForward(conveyor);
   private final ConveyorBackward conveyorBackward = new ConveyorBackward(conveyor);
   private final  OuttakeCommand outtakeCommand = new OuttakeCommand(outtake);
+  private final ConveyorOuttake conveyorOuttake = new ConveyorOuttake(outtake,conveyor);
   private final XboxController driver = new XboxController(0);
   private final XboxController operator = new XboxController(1);
 
@@ -119,7 +121,7 @@ public class RobotContainer {
     JoystickButton oA = new JoystickButton(operator, XboxController.Button.kA.value);
     // JoystickButton oB = new JoystickButton(operator, XboxController.Button.kB.value);
     // JoystickButton oX = new JoystickButton(operator, XboxController.Button.kX.value);
-    // JoystickButton oY = new JoystickButton(operator, XboxController.Button.kY.value);
+    JoystickButton oY = new JoystickButton(operator, XboxController.Button.kY.value);
     JoystickButton oLB = new JoystickButton(operator, XboxController.Button.kLeftBumper.value);
     JoystickButton oRB = new JoystickButton(operator, XboxController.Button.kRightBumper.value);
     // XboxControllerButton oLT =
@@ -143,6 +145,7 @@ public class RobotContainer {
     oLB.whenHeld(conveyorForward);
     oRB.whenHeld(conveyorBackward);
     oA.whenHeld(outtakeCommand);
+    oY.whenHeld(conveyorOuttake);
   }
 
   /**
