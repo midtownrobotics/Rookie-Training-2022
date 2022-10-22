@@ -119,9 +119,9 @@ public class RobotContainer {
     
     // Operator buttons
     JoystickButton oA = new JoystickButton(operator, XboxController.Button.kA.value);
-    // JoystickButton oB = new JoystickButton(operator, XboxController.Button.kB.value);
+    JoystickButton oB = new JoystickButton(operator, XboxController.Button.kB.value);
     // JoystickButton oX = new JoystickButton(operator, XboxController.Button.kX.value);
-    JoystickButton oY = new JoystickButton(operator, XboxController.Button.kY.value);
+    //JoystickButton oY = new JoystickButton(operator, XboxController.Button.kY.value);
     JoystickButton oLB = new JoystickButton(operator, XboxController.Button.kLeftBumper.value);
     JoystickButton oRB = new JoystickButton(operator, XboxController.Button.kRightBumper.value);
     // XboxControllerButton oLT =
@@ -144,8 +144,8 @@ public class RobotContainer {
     // POVTrigger oDPadLeft = new POVTrigger(operator, 270);
     oLB.whenHeld(conveyorForward);
     oRB.whenHeld(conveyorBackward);
-    oA.whenHeld(outtakeCommand);
-    oY.whenHeld(conveyorOuttake);
+    oA.whenHeld(conveyorOuttake);
+    oB.whenHeld(outtakeCommand);
   }
 
   /**
