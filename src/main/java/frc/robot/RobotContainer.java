@@ -168,12 +168,7 @@ public class RobotContainer {
     POVTrigger oDPadDown = new POVTrigger(operator, 180);
     // POVTrigger oDPadLeft = new POVTrigger(operator, 270);
 
-    oLeftY.whileActiveContinuous(
-      new InstantCommand(() -> climber.runWinch(oLeftY.getRawAxis()), climber)
-    ).whenInactive(new InstantCommand(() -> climber.runWinch(0), climber));
-    oRightY.whileActiveContinuous(
-      new InstantCommand(() -> climber.runPivot(oRightY.getRawAxis()), climber)
-    ).whenInactive(new InstantCommand(() -> climber.runPivot(0), climber));
+    
     dLeftX
     .or(dLeftY)
     .or(dRightX)

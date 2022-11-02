@@ -148,8 +148,8 @@ public class Drivetrain extends SubsystemBase {
    * @param rightPower Percent power for the right side of the driveTrain
    */
   public void tankDrive(double leftPower, double rightPower) {
-    leftMaster.set(ControlMode.PercentOutput, leftPower);
-    rightMaster.set(ControlMode.PercentOutput, rightPower);
+    leftMaster.set(ControlMode.PercentOutput, leftPower/3);
+    rightMaster.set(ControlMode.PercentOutput, rightPower/3);
   }
 
   /**
@@ -159,8 +159,8 @@ public class Drivetrain extends SubsystemBase {
    * @param turn Percent power for turning the driveTrain
    */
   public void arcadeDrive(double forward, double turn) {
-    leftMaster.set(ControlMode.PercentOutput, forward + turn);
-    rightMaster.set(ControlMode.PercentOutput, forward - turn);
+    leftMaster.set(ControlMode.PercentOutput, (forward + turn)/3);
+    rightMaster.set(ControlMode.PercentOutput, (forward - turn)/3);
   }
 
   /** Stop all motors on the driveTrain */
